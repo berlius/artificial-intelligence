@@ -1,0 +1,44 @@
+FROM floydhub/dl-docker:gpu
+
+MAINTAINER berlius <berlius52@yahoo.com>
+
+RUN apt-get update
+
+RUN apt-get install -y swig \
+        libsdl2-2.0 \
+        libsdl2-dev  \
+        openjdk-7-jdk \
+        lua5.1 \
+        libxerces-c3.1 \
+        liblua5.1-0-dev \
+        libav-tools python-tk \
+        timidity \
+        jackd1 \        
+        lxterminal \
+        gnome-terminal
+         
+RUN pip install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-0.10.0rc0-cp27-none-linux_x86_64.whl \
+        tqdm  \
+        gym[all] \
+        chainer \
+        pygame \
+        scikit-neuralnetwork 
+        
+RUN luarocks install display 
+RUN luarocks install hdf5 
+RUN luarocks install image
+RUN luarocks install inn 
+RUN luarocks install loadcaffe 
+RUN luarocks install mnist 
+        
+RUN update-ca-certificates -f 
+
+ENV JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64 \
+    CLASSPATH=/usr/lib/jvm/java-7-openjdk-amd64/libtools.jar:$CLASSPATH \
+    PATH=/usr/lib/jvm/java-7-openjdk-amd64/bin:$PATH
+       
+EXPOSE 8000
+
+WORKDIR "/root"
+CMD ["jackd -R -d alsa -d hw:1"]
+CMD ["/bin/bash"]
