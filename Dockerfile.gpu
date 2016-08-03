@@ -27,7 +27,6 @@ RUN pip install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/te
 RUN luarocks install display 
 RUN luarocks install hdf5 
 RUN luarocks install image
-RUN luarocks install inn 
 RUN luarocks install loadcaffe 
 RUN luarocks install mnist 
         
