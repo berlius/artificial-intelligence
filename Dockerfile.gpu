@@ -21,6 +21,9 @@ RUN pip install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/te
         tqdm  \
         gym[all] \
         chainer \
+        prettytensor \
+        progressbar \
+        ipdb \
         scikit-neuralnetwork 
         
 RUN luarocks install display 
