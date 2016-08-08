@@ -13,7 +13,8 @@ RUN apt-get install -y swig \
         liblua5.1-0-dev \
         libav-tools python-tk \
         timidity \
-        jackd1 \        
+        jackd1 \
+        mencoder \
         lxterminal \
         gnome-terminal
          
