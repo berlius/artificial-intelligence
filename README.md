@@ -30,7 +30,7 @@ with this docker container, you can work on a project of artificial intelligence
 
 ### Obtaining the Docker image
 You have 2 options to obtain the Docker image
-#### Option 1: Download the Docker image from Docker Hub
+#### Option 1 : Download the Docker image from Docker Hub
 Docker Hub is a cloud based repository of pre-built images. You can download the image directly from here, which should be _much faster_ than building it locally (a few minutes, based on your internet speed).
 
 **GPU Version**
@@ -43,7 +43,7 @@ docker pull berlius/artificial-intelligence-gpu
 docker pull berlius/artificial-intelligence-cpu
 ```
 
-2. Build the Docker image locally : 
+#### Option 2 : Build the Docker image locally : 
 
 ### GPU version
 ```bash
