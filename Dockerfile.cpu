@@ -44,18 +44,18 @@ RUN apt-get update && apt-get install -y \
 		wget \
 		zlib1g-dev \
 		swig \
-        libsdl2-2.0 \
-        libsdl2-dev  \
-        openjdk-7-jdk \
-        lua5.1 \
-        libxerces-c3.1 \
-        liblua5.1-0-dev \
-        libav-tools python-tk \
-        timidity \
-        jackd1 \
-        mencoder \
-        lxterminal \
-        gnome-terminal \
+		libsdl2-2.0 \
+		libsdl2-dev  \
+		openjdk-7-jdk \
+		lua5.1 \
+		libxerces-c3.1 \
+		liblua5.1-0-dev \
+		libav-tools python-tk \
+		timidity \
+		jackd1 \
+		mencoder \
+		lxterminal \
+		gnome-terminal \
 		python-numpy \
 		python-scipy \
 		python-nose \
@@ -124,10 +124,10 @@ RUN pip --no-cache-dir install --upgrade ipython && \
 		wheel \
 		zmq \
 		tqdm  \
-        gym[all] \
-        chainer \
-        pygame \
-        scikit-neuralnetwork \
+		gym[all] \
+		chainer \
+		pygame \
+		scikit-neuralnetwork \
 		&& \
 	python -m ipykernel.kernelspec
 
