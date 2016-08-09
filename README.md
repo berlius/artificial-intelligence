@@ -43,7 +43,7 @@ docker pull berlius/artificial-intelligence-gpu
 docker pull berlius/artificial-intelligence-cpu
 ```
 
-#### Option 2 : Build the Docker image locally : 
+#### Option 2 : Build the Docker image locally 
 
 ### GPU version
 ```bash
