@@ -21,7 +21,27 @@ with this docker container, you can work on a project of artificial intelligence
 
 
 ## Setup
-1. Install [All-in-one Docker image for Deep Learning](https://github.com/saiprashanths/dl-docker/) following the installation guide.
+### Prerequisites
+1. Install Docker following the installation guide for your platform: [https://docs.docker.com/engine/installation/](https://docs.docker.com/engine/installation/)
+
+2. **GPU Version Only**: Install Nvidia drivers on your machine either from [Nvidia](http://www.nvidia.com/Download/index.aspx?lang=en-us) directly or follow the instructions [here](https://github.com/saiprashanths/dl-setup#nvidia-drivers). Note that you _don't_ have to install CUDA or cuDNN. These are included in the Docker container.
+
+3. **GPU Version Only**: Install nvidia-docker: [https://github.com/NVIDIA/nvidia-docker](https://github.com/NVIDIA/nvidia-docker), following the instructions [here](https://github.com/NVIDIA/nvidia-docker/wiki/Installation). This will install a replacement for the docker CLI. It takes care of setting up the Nvidia host driver environment inside the Docker containers and a few other things.
+
+### Obtaining the Docker image
+You have 2 options to obtain the Docker image
+#### Option 1: Download the Docker image from Docker Hub
+Docker Hub is a cloud based repository of pre-built images. You can download the image directly from here, which should be _much faster_ than building it locally (a few minutes, based on your internet speed). Here is the automated build page for `dl-docker`: [https://hub.docker.com/r/floydhub/dl-docker/](https://hub.docker.com/r/floydhub/dl-docker/). The image is automatically built based on the `Dockerfile` in the Github repo.
+
+**CPU Version**
+```bash
+docker pull berlius/artificial-intelligence-cpu
+```
+
+**GPU Version**
+```bash
+docker pull berlius/artificial-intelligence-gpu
+```
 
 2. Build the Docker image locally : 
 
@@ -30,7 +50,7 @@ with this docker container, you can work on a project of artificial intelligence
 git clone https://github.com/berlius/artificial-intelligence
 cd artificial-intelligence
 
-sudo docker build -t berlius/artificial-intelligence:gpu -f Dockerfile.gpu .
+sudo docker build -t berlius/artificial-intelligence-gpu -f Dockerfile.gpu .
 ```
 
 ### CPU version
@@ -38,7 +58,7 @@ sudo docker build -t berlius/artificial-intelligence:gpu -f Dockerfile.gpu .
 git clone https://github.com/berlius/artificial-intelligence
 cd artificial-intelligence
 
-sudo docker build -t berlius/artificial-intelligence:cpu -f Dockerfile.cpu .
+sudo docker build -t berlius/artificial-intelligence-cpu -f Dockerfile.cpu .
 ```
 
 ## Running the Docker image as a Container
@@ -47,7 +67,7 @@ sudo docker build -t berlius/artificial-intelligence:cpu -f Dockerfile.cpu .
 ```bash
 sudo nvidia-docker-plugin
 
-xhost + ; sudo nvidia-docker run -it -p 8888:8888 -p 6006:6006 -p 8000:8000 -v `pwd`:/root/sharedfolder --privileged --device=/dev/snd:/dev/snd -v /tmp/.X11-unix:/tmp/.X11-unix:ro -e DISPLAY=unix$DISPLAY berlius/artificial-intelligence:gpu lxterminal
+xhost + ; sudo nvidia-docker run -it -p 8888:8888 -p 6006:6006 -p 8000:8000 -v `pwd`:/root/sharedfolder --privileged --device=/dev/snd:/dev/snd -v /tmp/.X11-unix:/tmp/.X11-unix:ro -e DISPLAY=unix$DISPLAY berlius/artificial-intelligence-gpu lxterminal
 cd sharedfolder
 
 ```
@@ -56,7 +76,7 @@ cd sharedfolder
 
 ```bash
 
-xhost + ; sudo docker run -it -p 8888:8888 -p 6006:6006 -p 8000:8000 -v `pwd`:/root/sharedfolder --privileged --device=/dev/snd:/dev/snd -v /tmp/.X11-unix:/tmp/.X11-unix:ro -e DISPLAY=unix$DISPLAY berlius/artificial-intelligence:cpu lxterminal
+xhost + ; sudo docker run -it -p 8888:8888 -p 6006:6006 -p 8000:8000 -v `pwd`:/root/sharedfolder --privileged --device=/dev/snd:/dev/snd -v /tmp/.X11-unix:/tmp/.X11-unix:ro -e DISPLAY=unix$DISPLAY berlius/artificial-intelligence-cpu lxterminal
 cd sharedfolder
 ```
 Now you can directly modify and train a model. for example 
@@ -77,14 +97,14 @@ Note the use of `nvidia-docker` rather than just `docker` for GPU
 |`-it`             | This creates an interactive terminal you can use to iteract with your container |
 |`-p 8888:8888 -p 6006:6006` -p 8000:8000   | This exposes the ports inside the container so they can be accessed from the host. The format is `-p <host-port>:<container-port>`. The default iPython Notebook runs on port 8888 and Tensorboard on 6006 |
 |`-v /sharedfolder:/root/sharedfolder/` | This shares the folder `/sharedfolder` on your host machine to `/root/sharedfolder/` inside your container. Any data written to this folder by the container will be persistent. You can modify this to anything of the format `-v /local/shared/folder:/shared/folder/in/container/`. See [Docker container persistence](#docker-container-persistence)
-|`berlius/artificial-intelligence:gpu`   | This the image that you want to run. The format is `image:tag`. In our case, we use the image `artificial-intelligence` and tag `gpu` |
-|`lxterminal`       | This provides the default command when the container is started. If this was not provided, bash is the default command and just starts a Bash session. You can modify this to be whatever you'd like to be executed when your container starts. For example, you can execute `docker run -it -p 8888:8888 -p 6006:6006 -p 8000:8000 -v sharedfolder:/root/sharedfolder --privileged --device=/dev/snd:/dev/snd -v /tmp/.X11-unix:/tmp/.X11-unix:ro -e DISPLAY=unix$DISPLAY berlius/artificial-intelligence:cpu jupyter notebook`. This will execute the command `jupyter notebook` and starts your Jupyter Notebook for you when the container starts
+|`berlius/artificial-intelligence-gpu`   | This the image that you want to run. 
+|`lxterminal`       | This provides the default command when the container is started. If this was not provided, bash is the default command and just starts a Bash session. You can modify this to be whatever you'd like to be executed when your container starts. For example, you can execute `docker run -it -p 8888:8888 -p 6006:6006 -p 8000:8000 -v sharedfolder:/root/sharedfolder --privileged --device=/dev/snd:/dev/snd -v /tmp/.X11-unix:/tmp/.X11-unix:ro -e DISPLAY=unix$DISPLAY berlius/artificial-intelligence-gpu jupyter notebook`. This will execute the command `jupyter notebook` and starts your Jupyter Notebook for you when the container starts
 
 ## Some common scenarios
 ### Jupyter Notebooks
 The container comes pre-installed with iPython and iTorch Notebooks, and you can use these to work with the deep learning frameworks. If you spin up the docker container with `docker-run -p <host-port>:<container-port>` (as shown above in the [instructions](#running-the-docker-image-as-a-container)), you will have access to these ports on your host and can access them at `http://127.0.0.1:<host-port>`. The default iPython notebook uses port 8888 and Tensorboard uses port 6006. Since we expose both these ports when we run the container, we can access them both from the localhost.
 
-However, you still need to start the Notebook inside the container to be able to access it from the host. You can either do this from the container terminal by executing `jupyter notebook` or you can pass this command in directly while spinning up your container using the `docker run -it -p 8888:8888 -p 6006:6006 -p 8000:8000 -v sharedfolder:/root/sharedfolder --privileged --device=/dev/snd:/dev/snd -v /tmp/.X11-unix:/tmp/.X11-unix:ro -e DISPLAY=unix$DISPLAY berlius/artificial-intelligence:cpu  jupyter notebook`. The Jupyter Notebook has both Python (for TensorFlow, Caffe, Theano, Keras, Lasagne) and iTorch (for Torch) kernels.
+However, you still need to start the Notebook inside the container to be able to access it from the host. You can either do this from the container terminal by executing `jupyter notebook` or you can pass this command in directly while spinning up your container using the `docker run -it -p 8888:8888 -p 6006:6006 -p 8000:8000 -v sharedfolder:/root/sharedfolder --privileged --device=/dev/snd:/dev/snd -v /tmp/.X11-unix:/tmp/.X11-unix:ro -e DISPLAY=unix$DISPLAY berlius/artificial-intelligence-gpu  jupyter notebook`. The Jupyter Notebook has both Python (for TensorFlow, Caffe, Theano, Keras, Lasagne) and iTorch (for Torch) kernels.
 
 ### Data Sharing
 See [Docker container persistence](#docker-container-persistence). 
