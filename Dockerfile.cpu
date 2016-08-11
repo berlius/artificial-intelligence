@@ -120,6 +120,7 @@ RUN pip --no-cache-dir install --upgrade ipython && \
 		Pillow \
 		pygments \
 		six \
+		tflearn \
 		sphinx \
 		wheel \
 		zmq \
