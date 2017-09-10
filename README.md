@@ -1,6 +1,6 @@
 ## Information
 this repository is no longer updated because I now use [Nixos](https://nixos.org/),
-a declarative Linux distribution. Containers and virtual environments are useless because all the system is declarative and modular
+a declarative Linux distribution. Containers and virtual environments are useless because all the system is declarative and modular. you can use [this repository](https://github.com/QuantScientist/Deep-Learning-Boot-Camp/tree/master/docker) which continues to be updated. Their principle is exactly the same as mine. [root repository]( https://github.com/QuantScientist/Deep-Learning-Boot-Camp)
 
 ## Docker image for artificial intelligence
 
